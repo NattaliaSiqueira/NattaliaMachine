@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <style>
+      
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #50006f;
+            color: #4d2d75;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            padding: 30px 0;
+            margin: 0;
+        }
+
+        .container {
+            background-color: #c89bff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            width: 95%;
+            max-width: 900px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #6e02b1;
+            margin-bottom: 25px;
+        }
+
+        .area-entrada {
+            background-color: #f3e5f5;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"],
+        select {
+            padding: 10px;
+            margin: 5px 10px;
+            border: 2px solid #ce93d8;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        #valorEntrada {
+            width: 50%;
+            max-width: 300px;
+        }
+
+        button {
+            background-color: #9c27b0;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #7b1fa2;
+        }
+
+        .area-resultados {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .coluna {
+            flex: 1;
+            min-width: 150px;
+            background-color: #f3e5f5;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .coluna h3 {
+            color: #8e24aa;
+            margin-top: 0;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 2px solid #ce93d8;
+        }
+
+        .resultado {
+            word-wrap: break-word;
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #4a148c;
+            padding: 10px;
+            border-radius: 5px;
+            min-height: 25px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>SPTecher's Machine</h1>
+        <h3>por Nattalia Siqueira</h3>
+
+        <div class="area-entrada">
+            <h3>Configure e Digite:</h3>
+
+            <label for="baseOrigem">Selecione uma Base:</label>
+            <select id="baseOrigem">
+                <option value="10">Decimal</option>
+                <option value="2">Binário</option>
+                <option value="8">Octal</option>
+                <option value="16">Hexadecimal</option>
+            </select>
+
+            <label for="valorEntrada">Número:</label>
+            <input id="valorEntrada" type="text" placeholder="Ex: 20, 101010, 52, 2A">
+
+            <button onclick="converter()">Converter Tudo</button>
+        </div>
+
+        <hr
+            style="border: 0; height: 1px; background-image: linear-gradient(to right, rgba(156,39,176,0), rgba(156,39,176,0.75), rgba(156,39,176,0)); margin: 20px 0;">
+
+        <h2>Resultados</h2>
+
+        <div class="area-resultados">
+            <div class="coluna">
+                <h3>Decimal</h3>
+                <div id="resultadoDecimal" class="resultado">?</div>
+            </div>
+
+            <div class="coluna">
+                <h3>Binário</h3>
+                <div id="resultadoBinario" class="resultado">?</div>
+            </div>
+
+            <div class="coluna">
+                <h3>Octal</h3>
+                <div id="resultadoOctal" class="resultado">?</div>
+            </div>
+
+            <div class="coluna">
+                <h3>Hexadecimal</h3>
+                <div id="resultadoHexadecimal" class="resultado">?</div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        
+        function converterParaBinario(decimal) {
+            var resultado = decimal.toString(2); 
+            document.getElementById('resultadoBinario').innerHTML = resultado;
+            return resultado;
+        }
+
+
+        function converterParaOctal(decimal) {
+            var resultado = decimal.toString(8); 
+            document.getElementById('resultadoOctal').innerHTML = resultado;
+            return resultado;
+        }
+
+
+        function converterParaHexadecimal(decimal) {
+
+            var resultado = decimal.toString(16).toUpperCase(); 
+            document.getElementById('resultadoHexadecimal').innerHTML = resultado;
+            return resultado;
+        }
+
+        function exibirDecimal(decimal) {
+            document.getElementById('resultadoDecimal').innerHTML = decimal.toString(10);
+        }
+
+
+        function limparResultados() {
+            document.getElementById('resultadoDecimal').innerHTML = '---';
+            document.getElementById('resultadoBinario').innerHTML = '---';
+            document.getElementById('resultadoOctal').innerHTML = '---';
+            document.getElementById('resultadoHexadecimal').innerHTML = '---';
+        }
+
+
+        function converter() {
+
+            var valor = document.getElementById('valorEntrada').value.trim(); 
+            var base = parseInt(document.getElementById('baseOrigem').value); 
+
+            if (valor === "") {
+                alert("Por favor, digite um número para converter.");
+                limparResultados();
+                return;
+            }
+
+            var numeroDecimal = parseInt(valor, base); 
+
+            if (isNaN(numeroDecimal)) {
+                alert("O valor digitado não é válido para a base selecionada.");
+                limparResultados();
+                return;
+            }
+
+
+            exibirDecimal(numeroDecimal);
+            converterParaBinario(numeroDecimal);
+            converterParaOctal(numeroDecimal);
+            converterParaHexadecimal(numeroDecimal);
+        }
+    </script>
+</body>
+
+</html>
